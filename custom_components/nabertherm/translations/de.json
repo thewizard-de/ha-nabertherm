@@ -1,0 +1,43 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nabertherm Brennofen",
+        "description": "Zugangsdaten deines MyNabertherm-Kontos. Öfen werden automatisch gefunden.",
+        "data": {
+          "email": "E-Mail",
+          "password": "Passwort",
+          "customer_id": "CustomerId",
+          "language": "Sprache"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Nabertherm neu anmelden",
+        "description": "Das gespeicherte Passwort für {email} funktioniert nicht mehr. Bitte neues Passwort eingeben.",
+        "data": {
+          "password": "Passwort"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Login fehlgeschlagen (E-Mail/Passwort/CustomerId prüfen).",
+      "cannot_connect": "Keine Verbindung zur get-entangled.de-API.",
+      "unknown": "Unbekannter Fehler.",
+      "no_furnace": "Login ok, aber kein Ofen im Konto gefunden."
+    },
+    "abort": {
+      "already_configured": "Dieses Konto ist bereits eingerichtet.",
+      "reauth_successful": "Neu angemeldet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Nabertherm-Optionen",
+        "data": {
+          "scan_interval": "Abfrageintervall (Sekunden)"
+        }
+      }
+    }
+  }
+}

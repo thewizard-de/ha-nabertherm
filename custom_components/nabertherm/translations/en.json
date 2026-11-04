@@ -1,0 +1,43 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nabertherm furnace",
+        "description": "Your MyNabertherm account credentials. Furnaces are discovered automatically.",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "customer_id": "CustomerId",
+          "language": "Language"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate Nabertherm",
+        "description": "The stored password for {email} no longer works. Please enter the new password.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Login failed (check email/password/CustomerId).",
+      "cannot_connect": "Cannot reach the get-entangled.de API.",
+      "unknown": "Unknown error.",
+      "no_furnace": "Login ok, but no furnace found in the account."
+    },
+    "abort": {
+      "already_configured": "This account is already configured.",
+      "reauth_successful": "Re-authentication successful."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Nabertherm options",
+        "data": {
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    }
+  }
+}

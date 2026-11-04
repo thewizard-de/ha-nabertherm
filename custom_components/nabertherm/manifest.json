@@ -1,0 +1,14 @@
+{
+  "domain": "nabertherm",
+  "name": "Nabertherm MyNabertherm",
+  "codeowners": [
+    "@thewizard-de"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/thewizard-de/ha-nabertherm",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/thewizard-de/ha-nabertherm/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}
