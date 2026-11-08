@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -104,17 +104,6 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-def _parse_timestamp(raw: object) -> datetime | None:
-    """API-Zeitstempel parsen. Die API liefert UTC ohne Zonen-Suffix."""
-    if not isinstance(raw, str) or not raw:
-        return None
-    try:
-        parsed = datetime.fromisoformat(raw)
-    except ValueError:
-        return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
-
-
 class NaberthermSensor(CoordinatorEntity[NaberthermCoordinator], SensorEntity):
     """Ein Snapshot-Parameter eines Ofens als Sensor."""
 
@@ -165,16 +154,24 @@ class NaberthermSensor(CoordinatorEntity[NaberthermCoordinator], SensorEntity):
 
     @property
     def available(self) -> bool:
+        # Veralteter Snapshot (Controller laedt nicht mehr hoch) -> Messwerte nicht verfuegbar
         params = self._snapshot().get("parameters", {}) or {}
-        return super().available and self.entity_description.key in params
+        return (
+            super().available
+            and self.entity_description.key in params
+            and not self.coordinator.is_stale(self._guid)
+        )
 
 
 class NaberthermTimestampSensor(NaberthermSensor):
-    """Zeitpunkt des Snapshots (Top-Level timeStamp statt parameters.<key>)."""
+    """Zeitpunkt des Snapshots (Top-Level timeStamp statt parameters.<key>).
+
+    Bleibt auch bei veraltetem Snapshot verfuegbar: er zeigt, seit wann Daten fehlen.
+    """
 
     @property
     def native_value(self) -> datetime | None:
-        return _parse_timestamp(self._snapshot().get("timeStamp"))
+        return self.coordinator.snapshot_time(self._guid)
 
     @property
     def available(self) -> bool:

@@ -35,7 +35,11 @@
       "init": {
         "title": "Nabertherm options",
         "data": {
-          "scan_interval": "Polling interval (seconds)"
+          "scan_interval": "Polling interval (seconds)",
+          "max_age": "Max. data age (minutes, 0 = off)"
+        },
+        "data_description": {
+          "max_age": "If the controller's last upload is older, readings show as unavailable. Otherwise the cloud keeps serving the last values while the furnace is off or offline."
         }
       }
     }

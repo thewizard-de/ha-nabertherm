@@ -21,9 +21,11 @@ from .api import NaberthermApi, NaberthermApiError, NaberthermAuthError
 from .const import (
     CONF_CUSTOMER_ID,
     CONF_LANGUAGE,
+    CONF_MAX_AGE,
     CONF_SCAN_INTERVAL,
     DEFAULT_CUSTOMER_ID,
     DEFAULT_LANGUAGE,
+    DEFAULT_MAX_AGE,
     DEFAULT_PRODUCT_IDS,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
@@ -137,7 +139,7 @@ class NaberthermConfigFlow(ConfigFlow, domain=DOMAIN):
 
 
 class NaberthermOptionsFlow(OptionsFlow):
-    """Scan-Intervall nachtraeglich aendern."""
+    """Scan-Intervall und maximales Datenalter nachtraeglich aendern."""
 
     def __init__(self, config_entry: ConfigEntry) -> None:
         self._entry = config_entry
@@ -152,11 +154,15 @@ class NaberthermOptionsFlow(OptionsFlow):
             CONF_SCAN_INTERVAL,
             self._entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
         )
+        max_age = self._entry.options.get(CONF_MAX_AGE, DEFAULT_MAX_AGE)
         schema = vol.Schema(
             {
                 vol.Optional(CONF_SCAN_INTERVAL, default=current): vol.All(
                     int, vol.Range(min=6, max=3600)
-                )
+                ),
+                vol.Optional(CONF_MAX_AGE, default=max_age): vol.All(
+                    int, vol.Range(min=0, max=1440)
+                ),
             }
         )
         return self.async_show_form(step_id="init", data_schema=schema)

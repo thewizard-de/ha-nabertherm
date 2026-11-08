@@ -12,10 +12,12 @@ from .api import NaberthermApi, NaberthermApiError, NaberthermAuthError
 from .const import (
     CONF_CUSTOMER_ID,
     CONF_LANGUAGE,
+    CONF_MAX_AGE,
     CONF_PRODUCT_IDS,
     CONF_SCAN_INTERVAL,
     DEFAULT_CUSTOMER_ID,
     DEFAULT_LANGUAGE,
+    DEFAULT_MAX_AGE,
     DEFAULT_PRODUCT_IDS,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
@@ -51,7 +53,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         CONF_SCAN_INTERVAL,
         entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
     )
-    coordinator = NaberthermCoordinator(hass, entry, api, guids, scan_interval)
+    max_age = entry.options.get(CONF_MAX_AGE, DEFAULT_MAX_AGE)
+    coordinator = NaberthermCoordinator(hass, entry, api, guids, scan_interval, max_age)
     await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator

@@ -30,8 +30,17 @@ Einstellungen → Geräte & Dienste → **Integration hinzufügen** → „Naber
 | CustomerId | Mandanten-ID (erweitert) | `4` |
 | Sprache | Login-Sprache (erweitert) | `en` |
 
-Die Öfen werden nach dem Login selbst ermittelt. Das Abfrageintervall (Default 30 s) lässt
-sich nachträglich unter **Konfigurieren** ändern (min. 6 s = API-`updateRate`).
+Die Öfen werden nach dem Login selbst ermittelt. Unter **Konfigurieren** lassen sich
+nachträglich ändern:
+
+| Option | Bedeutung | Default |
+|---|---|---|
+| Abfrageintervall | Sekunden zwischen zwei Cloud-Abfragen (min. 6 s = API-`updateRate`) | `30` |
+| Max. Datenalter | Minuten; ist der letzte Controller-Upload älter, werden die Messwerte „nicht verfügbar“. `0` schaltet das ab. | `10` |
+
+Hintergrund: Lädt der Controller nichts mehr hoch (Ofen aus, WLAN weg), liefert die Cloud den
+letzten Stand ohne Fehler weiter. Ohne Altersprüfung sähe ein abgeschalteter Ofen in HA aus,
+als liefe er noch mit den alten Werten.
 
 ## Geräteerkennung
 Nach dem Login fragt die Integration die bekannten Serie-500-ProductIds
@@ -42,8 +51,8 @@ Nach dem Login fragt die Integration die bekannten Serie-500-ProductIds
 ## Sensoren (je Ofen)
 Ist-/Soll-Temperatur, Heizleistung, Status-Code, Programm(-nummer), aktives Segment,
 Segmente gesamt, Rest-/Laufzeiten (Minuten), Segment-Zieltemperatur, Fehlercode, höchste Warnung.
-Dazu als Diagnose **Letzte Aktualisierung** (Zeitpunkt des letzten Controller-Uploads): bleibt
-der Wert stehen, ist der Controller offline und die übrigen Werte sind veraltet.
+Dazu als Diagnose **Letzte Aktualisierung** (Zeitpunkt des letzten Controller-Uploads). Sie
+bleibt auch bei veralteten Daten sichtbar und zeigt, seit wann der Controller nichts mehr liefert.
 
 Ändert sich das MyNabertherm-Passwort, fordert Home Assistant über **Erneut authentifizieren**
 das neue Passwort an; die Integration muss nicht neu eingerichtet werden.
